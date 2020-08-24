@@ -3,67 +3,107 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Duke {
-    private static final String MESSAGE_BOUNDARY = "\n____________________________________________________________\n";
+    private static final String MESSAGE_BOUNDARY = "____________________________________________________________";
     private static final String LOGO = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"
             + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
 
+    //List of tasks/class variables
+    private List<Task> myTasks;
 
-    private String print_response(String input , boolean repeat){
-        if(!repeat){
-            return "Bye, hope to see you soon!";
+    public Duke(){
+        this.myTasks = new ArrayList<Task>();
+    }
+
+    //Default responses
+    private void dukeResponse(String sampleText){
+        System.out.println(MESSAGE_BOUNDARY);
+        System.out.println(sampleText);
+        System.out.println(MESSAGE_BOUNDARY);
+    }
+    //Print out full task list
+    private void dukeResponse(String sampleText , List<Task> listOfTasks ){
+        System.out.println(MESSAGE_BOUNDARY);
+        System.out.println(sampleText);
+        int index = 0;
+        for(Task t:listOfTasks){
+            index +=1;
+            System.out.println(String.format("%d",index) +". "+ t);
         }
-        else
-            return input;
+        System.out.println(MESSAGE_BOUNDARY);
     }
-    private Boolean continuechat(String input){
+    //Runs when user types done + number
+    private void dukeRespondTask(String sampleText , Task userTask ){
+        System.out.println(MESSAGE_BOUNDARY);
+        System.out.println(sampleText);
+        System.out.println(userTask);
+        System.out.println(MESSAGE_BOUNDARY);
+    }
+
+    private Boolean continueChat(String input){
         return !input.equals("bye"); // returns FALSE if user inputs "bye"
+    }
+    private Task taskIsDone(String userInput){
+        Scanner taskExist = new Scanner(userInput);
+        String done = taskExist.next();
+        int index = taskExist.nextInt();
+        taskExist.close();
 
+        if(index <= this.myTasks.size() && index >0){
+            this.myTasks.get(index-1).markAsDone();
+            return this.myTasks.get(index-1);
+        }
+
+        return null;
     }
 
-    public void bot_respond(){
-        Boolean repeat = true;
-        Scanner myscanner = new Scanner(System.in);
-        System.out.println(LOGO);
-        System.out.println(MESSAGE_BOUNDARY+ "Hello! I'm Duke\n" + "What can I do for you?" + MESSAGE_BOUNDARY);
-        //System.out.println("Bye. Hope to hear from you soon!\n"+ MESSAGE_BOUNDARY);
-        List<String> myList;
-        myList = new ArrayList<String>();
+    public Boolean giveResponse(String query) {
+        if (!continueChat(query)) { // if user said bye
+            dukeResponse("Bye, hope to see you soon!");
+            return false;
+        }
+        else if (query.equals("list")) { // if user said list
+            dukeResponse("Here are the tasks in your list: " , myTasks);
+        }
+        else if (query.startsWith("done")) { // if user has completed a task
+            Task completedTask = taskIsDone(query);
+            if(completedTask==null){
+                dukeResponse("Task does not exist sir");
+            }
+            else{
+                dukeRespondTask("Nice! I've marked this task as done:" , completedTask);
+            }
+        }
+        else { // add a task to the list
+            Task newItem = new Task(query);
+            this.myTasks.add(newItem);
+            dukeRespondTask("added: ", newItem);
+        }
+        return true;
+    }
+
+
+    public void dukeIntro(){
+        boolean repeat = true;
+        Scanner myscanner = new Scanner(System.in);  // Create a Scanner object
+        System.out.print(LOGO);
+        dukeResponse("Hello! I'm Duke\n What can I do for you?");
         while(repeat){
-            //Gather input from user
             String userQuery = myscanner.nextLine();
-
-            //Collect response and add to list/exits when appropriate
-            repeat = continuechat(userQuery);
-            if(userQuery.equals("list")){
-
-                for(int i=0;i<myList.size();i++){
-                    int index = i+1;
-                    String task = myList.get(i);
-                    System.out.println(index + ". " + task);
-
-                }
-                System.out.print(MESSAGE_BOUNDARY);
-            }
-            else if(repeat){
-                myList.add(userQuery);
-                System.out.print(MESSAGE_BOUNDARY +"added: " + userQuery + MESSAGE_BOUNDARY);
-            }
-            else {
-                System.out.print(MESSAGE_BOUNDARY  + print_response(userQuery, repeat) + MESSAGE_BOUNDARY);
-            }
-
+            repeat = giveResponse(userQuery);
 
         }
         myscanner.close();
+
     }
+
 
     public static void main(String[] args) {
 
         Duke myobj = new Duke();
-        myobj.bot_respond();;
+        myobj.dukeIntro();
 
     }
 }
