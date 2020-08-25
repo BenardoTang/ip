@@ -14,7 +14,7 @@ public class Duke {
     private List<Task> myTasks;
 
     public Duke(){
-        this.myTasks = new ArrayList<Task>();
+        this.myTasks = new ArrayList<>();
     }
 
     //Default responses
@@ -22,6 +22,7 @@ public class Duke {
         System.out.println(MESSAGE_BOUNDARY);
         System.out.println(sampleText);
         System.out.println(MESSAGE_BOUNDARY);
+
     }
     //Print out full task list
     private void dukeResponse(String sampleText , List<Task> listOfTasks ){
@@ -42,9 +43,7 @@ public class Duke {
         System.out.println(MESSAGE_BOUNDARY);
     }
 
-    private Boolean continueChat(String input){
-        return !input.equals("bye"); // returns FALSE if user inputs "bye"
-    }
+
     private Task taskIsDone(String userInput){
         Scanner taskExist = new Scanner(userInput);
         String done = taskExist.next();
@@ -59,31 +58,52 @@ public class Duke {
         return null;
     }
 
-    public Boolean giveResponse(String query) {
-        if (!continueChat(query)) { // if user said bye
-            dukeResponse("Bye, hope to see you soon!");
-            return false;
-        }
-        else if (query.equals("list")) { // if user said list
+    public Boolean shouldGiveResponse(String query) {
+        boolean shouldContinueChat = true;
+        Scanner in = new Scanner(query);
+        Task newItem = null;
+        String userCommand = in.next();
+
+        switch (userCommand){
+        case"deadline":
+            String[] deadlineSplit = query.split("/by");
+            newItem = new Deadline(deadlineSplit[0],deadlineSplit[1]);
+            break;
+        case"todo":
+            newItem = new ToDo(query);
+            break;
+        case"event":
+            String[] eventSplit = query.split("/at");
+            newItem = new Event(eventSplit[0],eventSplit[1]);
+            break;
+        case"list":
             dukeResponse("Here are the tasks in your list: " , myTasks);
-        }
-        else if (query.startsWith("done")) { // if user has completed a task
+            break;
+        case"done":
             Task completedTask = taskIsDone(query);
             if(completedTask==null){
-                dukeResponse("Task does not exist sir");
+                dukeResponse("Task does not exist kid, try again.");
             }
             else{
                 dukeRespondTask("Nice! I've marked this task as done:" , completedTask);
             }
+            break;
+        case"bye":
+            dukeResponse("Bye, hope to see you soon!");
+            shouldContinueChat = false;
+            break;
+        default:
+            dukeResponse("I don't know what that means, try again kid");
         }
-        else { // add a task to the list
-            Task newItem = new Task(query);
+        if(newItem !=null){
             this.myTasks.add(newItem);
-            dukeRespondTask("added: ", newItem);
+            dukeRespondTask("Hey kid, i've added: ", newItem);
+            String plural = ((this.myTasks.size() > 1) ? "s" : "");
+            dukeResponse("Now you have " + myTasks.size() + " task" + plural + " in the list.");
         }
-        return true;
-    }
 
+        return shouldContinueChat;
+    }
 
     public void dukeIntro(){
         boolean repeat = true;
@@ -92,7 +112,7 @@ public class Duke {
         dukeResponse("Hello! I'm Duke\n What can I do for you?");
         while(repeat){
             String userQuery = myscanner.nextLine();
-            repeat = giveResponse(userQuery);
+            repeat = shouldGiveResponse(userQuery);
 
         }
         myscanner.close();
@@ -101,7 +121,6 @@ public class Duke {
 
 
     public static void main(String[] args) {
-
         Duke myobj = new Duke();
         myobj.dukeIntro();
 
