@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Duke {
+    //Constants
     private static final String MESSAGE_BOUNDARY = "____________________________________________________________";
     private static final String LOGO = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"
@@ -10,14 +11,15 @@ public class Duke {
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
 
-    //List of tasks/class variables
+    //class variables
     private List<Task> myTasks;
 
+    //Constructor for class Duke
     public Duke(){
         this.myTasks = new ArrayList<>();
     }
 
-    //Default responses
+    //Default response template to user
     private void dukeResponse(String sampleText){
         System.out.println(MESSAGE_BOUNDARY);
         System.out.println(sampleText);
@@ -35,7 +37,7 @@ public class Duke {
         }
         System.out.println(MESSAGE_BOUNDARY);
     }
-    //Runs when user types done + number
+    //Respond when user has done a task
     private void dukeRespondTask(String sampleText , Task userTask ){
         System.out.println(MESSAGE_BOUNDARY);
         System.out.println(sampleText);
@@ -43,7 +45,7 @@ public class Duke {
         System.out.println(MESSAGE_BOUNDARY);
     }
 
-
+    //mark task as done
     private Task taskIsDone(String userInput){
         Scanner taskExist = new Scanner(userInput);
         String done = taskExist.next();
@@ -58,12 +60,14 @@ public class Duke {
         return null;
     }
 
+    //Query from user.Boolean represents whetherDuke should continue the chat.
     public Boolean shouldGiveResponse(String query) {
         boolean shouldContinueChat = true;
         Scanner in = new Scanner(query);
         Task newItem = null;
         String userCommand = in.next();
 
+        //parse user query
         switch (userCommand){
         case"deadline":
             String[] deadlineSplit = query.split("/by");
@@ -105,6 +109,7 @@ public class Duke {
         return shouldContinueChat;
     }
 
+    //To run Duke/s program
     public void dukeIntro(){
         boolean repeat = true;
         Scanner myscanner = new Scanner(System.in);  // Create a Scanner object
