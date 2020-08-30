@@ -112,22 +112,22 @@ public class Duke {
     //To run Duke/s program
     public void dukeIntro(){
         boolean repeat = true;
-        Scanner myscanner = new Scanner(System.in);  // Create a Scanner object
+        Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         System.out.print(LOGO);
         dukeResponse("Hello! I'm Duke\n What can I do for you?");
         while(repeat){
-            String userQuery = myscanner.nextLine();
+            String userQuery = scanner.nextLine();
             repeat = shouldGiveResponse(userQuery);
 
         }
-        myscanner.close();
+        scanner.close();
 
     }
 
 
     public static void main(String[] args) {
-        Duke myobj = new Duke();
-        myobj.dukeIntro();
+        Duke myObj = new Duke();
+        myObj.dukeIntro();
 
     }
 }
