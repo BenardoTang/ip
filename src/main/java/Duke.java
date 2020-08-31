@@ -46,18 +46,26 @@ public class Duke {
     }
 
     //mark task as done
-    private Task taskIsDone(String userInput){
-        Scanner taskExist = new Scanner(userInput);
-        String done = taskExist.next();
-        int index = taskExist.nextInt();
-        taskExist.close();
+    private Task taskIsDone(Scanner userInput) throws DukeException {
+        //Scanner taskExist = new Scanner(userInput);
+        //String done = taskExist.next();
+        //taskExist.close();
 
+        if(!userInput.hasNextInt()) {
+            throw new DukeException("Task reference number needs to be an integer...");
+        }
+
+        int index = userInput.nextInt();
+        if(userInput.hasNext()) {
+            throw new DukeException("Too many arguments input for the 'mark as done' comment.");
+        }
         if(index <= this.myTasks.size() && index >0){
             this.myTasks.get(index-1).markAsDone();
             return this.myTasks.get(index-1);
         }
 
-        return null;
+        throw new DukeException("No such task was found");
+
     }
 
     //Query from user.Boolean represents whetherDuke should continue the chat.
@@ -89,12 +97,8 @@ public class Duke {
                 dukeResponse("Here are the tasks in your list: ", myTasks);
                 break;
             case "done":
-                Task completedTask = taskIsDone(query);
-                if (completedTask == null) {
-                    dukeResponse("Task does not exist kid, try again.");
-                } else {
-                    dukeRespondTask("Nice! I've marked this task as done:", completedTask);
-                }
+                Task completedTask = taskIsDone(in);
+                dukeRespondTask("Nice! I've marked this task as done:", completedTask);
                 break;
             case "bye":
                 dukeResponse("Bye, hope to see you soon!");
@@ -104,9 +108,8 @@ public class Duke {
                 throw new DukeException("Kid, i don't know what you just said. Try again...");
             }
 
-        } catch (DukeException e) {
-            dukeResponse("Hey kid, i don't know what that means. Try again!");
-            //e.printStackTrace();
+        } catch (DukeException ex) {
+            dukeResponse("☹ OOPS!!! " + ex.getMessage());
         }
         if (newItem != null) {
             this.myTasks.add(newItem);
