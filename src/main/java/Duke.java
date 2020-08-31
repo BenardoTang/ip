@@ -65,41 +65,50 @@ public class Duke {
         boolean shouldContinueChat = true;
         Scanner in = new Scanner(query);
         Task newItem = null;
-        String userCommand = in.next();
+
 
         //parse user query
-        switch (userCommand){
-        case"deadline":
-            String[] deadlineSplit = query.split("/by");
-            newItem = new Deadline(deadlineSplit[0],deadlineSplit[1]);
-            break;
-        case"todo":
-            newItem = new ToDo(query);
-            break;
-        case"event":
-            String[] eventSplit = query.split("/at");
-            newItem = new Event(eventSplit[0],eventSplit[1]);
-            break;
-        case"list":
-            dukeResponse("Here are the tasks in your list: " , myTasks);
-            break;
-        case"done":
-            Task completedTask = taskIsDone(query);
-            if(completedTask==null){
-                dukeResponse("Task does not exist kid, try again.");
+        try {
+            if(!in.hasNext()){
+                throw new DukeException("Type something man...");
             }
-            else{
-                dukeRespondTask("Nice! I've marked this task as done:" , completedTask);
+            String userCommand = in.next();
+            switch (userCommand) {
+            case "deadline":
+                String[] deadlineSplit = query.split("/by");
+                newItem = new Deadline(deadlineSplit[0], deadlineSplit[1]);
+                break;
+            case "todo":
+                newItem = new ToDo(query);
+                break;
+            case "event":
+                String[] eventSplit = query.split("/at");
+                newItem = new Event(eventSplit[0], eventSplit[1]);
+                break;
+            case "list":
+                dukeResponse("Here are the tasks in your list: ", myTasks);
+                break;
+            case "done":
+                Task completedTask = taskIsDone(query);
+                if (completedTask == null) {
+                    dukeResponse("Task does not exist kid, try again.");
+                } else {
+                    dukeRespondTask("Nice! I've marked this task as done:", completedTask);
+                }
+                break;
+            case "bye":
+                dukeResponse("Bye, hope to see you soon!");
+                shouldContinueChat = false;
+                break;
+            default:
+                throw new DukeException("Kid, i don't know what you just said. Try again...");
             }
-            break;
-        case"bye":
-            dukeResponse("Bye, hope to see you soon!");
-            shouldContinueChat = false;
-            break;
-        default:
-            dukeResponse("I don't know what that means, try again kid");
+
+        } catch (DukeException e) {
+            dukeResponse("Hey kid, i don't know what that means. Try again!");
+            //e.printStackTrace();
         }
-        if(newItem !=null){
+        if (newItem != null) {
             this.myTasks.add(newItem);
             dukeRespondTask("Hey kid, i've added: ", newItem);
             String plural = ((this.myTasks.size() > 1) ? "s" : "");
@@ -108,7 +117,6 @@ public class Duke {
 
         return shouldContinueChat;
     }
-
     //To run Duke/s program
     public void dukeIntro(){
         boolean repeat = true;
