@@ -83,15 +83,13 @@ public class Duke {
             String userCommand = in.next();
             switch (userCommand) {
             case "deadline":
-                String[] deadlineSplit = query.split("/by");
-                newItem = new Deadline(deadlineSplit[0], deadlineSplit[1]);
+                newItem = Deadline.checkDeadlineError(query);
                 break;
             case "todo":
                 newItem = new ToDo(query);
                 break;
             case "event":
-                String[] eventSplit = query.split("/at");
-                newItem = new Event(eventSplit[0], eventSplit[1]);
+                newItem = Event.checkEventError(query);
                 break;
             case "list":
                 dukeResponse("Here are the tasks in your list: ", myTasks);
