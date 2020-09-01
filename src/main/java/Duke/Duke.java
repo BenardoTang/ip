@@ -1,3 +1,5 @@
+package Duke;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ public class Duke {
     //class variables
     private List<Task> myTasks;
 
-    //Constructor for class Duke
+    //Constructor for class Duke.Duke
     public Duke(){
         this.myTasks = new ArrayList<>();
     }
@@ -52,7 +54,7 @@ public class Duke {
         //taskExist.close();
 
         if(!userInput.hasNextInt()) {
-            throw new DukeException("Task reference number needs to be an integer...");
+            throw new DukeException("Duke.Task reference number needs to be an integer...");
         }
 
         int index = userInput.nextInt();
@@ -86,7 +88,7 @@ public class Duke {
                 newItem = Deadline.checkDeadlineError(query);
                 break;
             case "todo":
-                newItem = new ToDo(query);
+                newItem = ToDo.checkToDoError(query);
                 break;
             case "event":
                 newItem = Event.checkEventError(query);
@@ -118,12 +120,12 @@ public class Duke {
 
         return shouldContinueChat;
     }
-    //To run Duke/s program
+    //To run Duke.Duke/s program
     public void dukeIntro(){
         boolean repeat = true;
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         System.out.print(LOGO);
-        dukeResponse("Hello! I'm Duke\n What can I do for you?");
+        dukeResponse("Hello! I'm Duke.Duke\n What can I do for you?");
         while(repeat){
             String userQuery = scanner.nextLine();
             repeat = shouldGiveResponse(userQuery);

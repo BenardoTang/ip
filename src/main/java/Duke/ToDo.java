@@ -1,3 +1,5 @@
+package Duke;
+
 import java.util.Scanner;
 
 public class ToDo extends Task{
@@ -9,7 +11,7 @@ public class ToDo extends Task{
     }
     public static ToDo checkToDoError(String in) throws DukeException{
         Scanner query = new Scanner(in);
-        if(!query.hasNext()){
+        if(in.trim().matches("todo")){
             throw new DukeException("Description of a task cannot be empty.");
         }
         return new ToDo(in);
