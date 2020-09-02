@@ -10,7 +10,7 @@ public class Deadline extends Task {
         super(description);
         this.by = by;
     }
-    public static Deadline checkDeadlineError(String in) throws DukeException{
+    public static Deadline checkDeadlineError(String in) throws DukeException {
         Scanner query = new Scanner(in);
         if(!query.hasNext()){
             throw new DukeException("Description of a deadline cannot be empty.");
@@ -22,6 +22,7 @@ public class Deadline extends Task {
         if(in.length() <= (index+3)){
             throw new DukeException("End date of a deadline cannot be empty.");
         }
+        in = in.replace("deadline","");
         String[] deadlineSplit = in.split("/by");
 
         return new Deadline(deadlineSplit[0], deadlineSplit[1]);

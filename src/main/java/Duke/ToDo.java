@@ -2,7 +2,7 @@ package Duke;
 
 import java.util.Scanner;
 
-public class ToDo extends Task{
+public class ToDo extends Task {
 
     protected String by;
 
@@ -14,6 +14,7 @@ public class ToDo extends Task{
         if(in.trim().matches("todo")){
             throw new DukeException("Description of a task cannot be empty.");
         }
+        in = in.replace("todo","");
         return new ToDo(in);
     }
     @Override

@@ -17,19 +17,19 @@ public class Duke {
     private List<Task> myTasks;
 
     //Constructor for class Duke.Duke
-    public Duke(){
+    public Duke() {
         this.myTasks = new ArrayList<>();
     }
 
     //Default response template to user
-    private void dukeResponse(String sampleText){
+    private void dukeResponse(String sampleText) {
         System.out.println(MESSAGE_BOUNDARY);
         System.out.println(sampleText);
         System.out.println(MESSAGE_BOUNDARY);
 
     }
     //Print out full task list
-    private void dukeResponse(String sampleText , List<Task> listOfTasks ){
+    private void dukeResponse(String sampleText , List<Task> listOfTasks) {
         System.out.println(MESSAGE_BOUNDARY);
         System.out.println(sampleText);
         int index = 0;
@@ -40,7 +40,7 @@ public class Duke {
         System.out.println(MESSAGE_BOUNDARY);
     }
     //Respond when user has done a task
-    private void dukeRespondTask(String sampleText , Task userTask ){
+    private void dukeRespondTask(String sampleText , Task userTask) {
         System.out.println(MESSAGE_BOUNDARY);
         System.out.println(sampleText);
         System.out.println(userTask);
@@ -49,10 +49,6 @@ public class Duke {
 
     //mark task as done
     private Task taskIsDone(Scanner userInput) throws DukeException {
-        //Scanner taskExist = new Scanner(userInput);
-        //String done = taskExist.next();
-        //taskExist.close();
-
         if(!userInput.hasNextInt()) {
             throw new DukeException("Duke.Task reference number needs to be an integer...");
         }
@@ -83,7 +79,7 @@ public class Duke {
                 throw new DukeException("Type something man...");
             }
             String userCommand = in.next();
-            switch (userCommand) {
+            switch (userCommand){
             case "deadline":
                 newItem = Deadline.checkDeadlineError(query);
                 break;
@@ -111,7 +107,7 @@ public class Duke {
         } catch (DukeException ex) {
             dukeResponse("☹ OOPS!!! " + ex.getMessage());
         }
-        if (newItem != null) {
+        if (newItem != null){
             this.myTasks.add(newItem);
             dukeRespondTask("Hey kid, i've added: ", newItem);
             String plural = ((this.myTasks.size() > 1) ? "s" : "");
@@ -120,12 +116,12 @@ public class Duke {
 
         return shouldContinueChat;
     }
-    //To run Duke.Duke/s program
-    public void dukeIntro(){
+    //To run Duke's program
+    public void dukeIntro() {
         boolean repeat = true;
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         System.out.print(LOGO);
-        dukeResponse("Hello! I'm Duke.Duke\n What can I do for you?");
+        dukeResponse("Hello! I'm Duke\n What can I do for you?");
         while(repeat){
             String userQuery = scanner.nextLine();
             repeat = shouldGiveResponse(userQuery);

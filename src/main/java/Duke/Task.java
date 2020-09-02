@@ -14,10 +14,10 @@ public class Task {
             return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols
         }
 
-        public void markAsDone(){
+        public void markAsDone() {
             this.isDone = true;
         }
         public String toString() {
-            return String.format("[%s] %s", getStatusIcon(), this.description);
+            return String.format("[%s]%s", getStatusIcon(), this.description);
         }
 }
