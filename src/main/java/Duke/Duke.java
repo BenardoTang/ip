@@ -65,6 +65,24 @@ public class Duke {
         throw new DukeException("No such task was found");
 
     }
+    private Task deleteTask(Scanner userInput) throws DukeException {
+        if(!userInput.hasNextInt()) {
+            throw new DukeException("Task reference number needs to be an integer...");
+        }
+
+        int index = userInput.nextInt();
+        if(userInput.hasNext()) {
+            throw new DukeException("Too many arguments input for the 'delete' command.");
+        }
+        if(index <= this.myTasks.size() && index >0){
+            Task taskRef = this.myTasks.get(index-1);
+            this.myTasks.remove(index-1);
+            return taskRef;
+        }
+
+        throw new DukeException("No such task was found");
+
+    }
 
     //Query from user.Boolean represents whetherDuke should continue the chat.
     public Boolean shouldGiveResponse(String query) {
@@ -95,6 +113,10 @@ public class Duke {
             case "done":
                 Task completedTask = taskIsDone(in);
                 dukeRespondTask("Nice! I've marked this task as done:", completedTask);
+                break;
+            case "delete":
+                Task deletedTask = deleteTask(in);
+                dukeRespondTask("Noted! I've removed this task for you:", deletedTask);
                 break;
             case "bye":
                 dukeResponse("Bye, hope to see you soon!");
