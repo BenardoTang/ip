@@ -226,7 +226,7 @@ public class Duke {
             System.out.println("Can't seem to load from file...Creating a new file duke.txt");
         }
         System.out.print(LOGO);
-        dukePrintTaskList("Hello! I'm Duke\n What can I do for you?");
+        dukePrintTaskList("Hello! I'm Duke\nWhat can I do for you?");
         while(repeat){
             String userQuery = scanner.nextLine();
             repeat = shouldGiveResponse(userQuery);

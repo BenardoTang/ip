@@ -19,7 +19,7 @@ public class Deadline extends Task {
 
     public static Deadline checkDeadlineError(String in) throws DukeException {
         Scanner query = new Scanner(in);
-        if(!query.hasNext()){
+        if(in.contains("deadline /by")){
             throw new DukeException("Description of a deadline cannot be empty.");
         }
         if(!in.contains("/by")){

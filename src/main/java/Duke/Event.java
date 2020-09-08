@@ -19,15 +19,15 @@ public class Event extends Task {
 
     public static Event checkEventError(String in) throws DukeException {
         Scanner query = new Scanner(in);
-        if(!query.hasNext()){
-            throw new DukeException("Description of an Duke.Event cannot be empty.");
+        if(in.contains("event /at")){
+            throw new DukeException("Description of an Event cannot be empty.");
         }
         if(!in.contains("/at")){
             throw new DukeException("Did not detect '/at' from user, please try again.");
         }
         int index = in.indexOf("/at");
         if(in.length() <= (index+3)){
-            throw new DukeException("Venue of an Duke.Event cannot be empty.");
+            throw new DukeException("Venue of an Event cannot be empty.");
         }
         in = in.replace("event","");
         String[] eventSplit = in.split("/at");
