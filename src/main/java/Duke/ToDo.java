@@ -19,6 +19,7 @@ public class ToDo extends Task {
         in = in.replace("todo","");
         return new ToDo(in);
     }
+
     @Override
     public String toString() {
         return "[T]" + super.toString();

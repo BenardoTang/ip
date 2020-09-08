@@ -12,9 +12,11 @@ public class Deadline extends Task {
         super(description);
         this.by = by;
     }
+
     public String getBy() {
         return this.by;
     }
+
     public static Deadline checkDeadlineError(String in) throws DukeException {
         Scanner query = new Scanner(in);
         if(!query.hasNext()){
@@ -32,10 +34,12 @@ public class Deadline extends Task {
 
         return new Deadline(deadlineSplit[0], deadlineSplit[1]);
     }
+
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: " + by + ")";
     }
+
     @Override
     public String[] getTaskData(){
         String[] taskValues = new String[NUMBER_OF_FIELDS_DEADLINE_FORMAT];

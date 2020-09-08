@@ -16,6 +16,7 @@ public class Duke {
             + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
+    private static final String FILEPATH = "src/main/java/Duke/duke.txt";
 
     //class variables
     private final List<Task> myTasks;
@@ -26,14 +27,14 @@ public class Duke {
     }
 
     //Default response template to user
-    private void dukeResponse(String sampleText) {
+    private void dukePrintTaskList(String sampleText) {
         System.out.println(MESSAGE_BOUNDARY);
         System.out.println(sampleText);
         System.out.println(MESSAGE_BOUNDARY);
-
     }
+
     //Print out full task list
-    private void dukeResponse(String sampleText , List<Task> listOfTasks) {
+    private void dukePrintTaskList(String sampleText , List<Task> listOfTasks) {
         System.out.println(MESSAGE_BOUNDARY);
         System.out.println(sampleText);
         int index = 0;
@@ -43,6 +44,7 @@ public class Duke {
         }
         System.out.println(MESSAGE_BOUNDARY);
     }
+
     //Respond when user has done a task
     private void dukeRespondTask(String sampleText , Task userTask) {
         System.out.println(MESSAGE_BOUNDARY);
@@ -54,7 +56,7 @@ public class Duke {
     //mark task as done
     private Task taskIsDone(Scanner userInput) throws DukeException {
         if(!userInput.hasNextInt()) {
-            throw new DukeException("Duke.Task reference number needs to be an integer...");
+            throw new DukeException("Task reference number needs to be an integer...");
         }
 
         int index = userInput.nextInt();
@@ -67,7 +69,6 @@ public class Duke {
         }
 
         throw new DukeException("No such task was found");
-
     }
 
     private static void saveMyTasksToFile(String filePath, List<Task> myTasks) throws IOException {
@@ -96,6 +97,7 @@ public class Duke {
         }
         fw.close();
     }
+
     private static void loadFileToMyTasks(String filePath, List<Task> myTasks) throws FileNotFoundException, DukeException {
         File loadingFile = new File(filePath);
         if (!loadingFile.exists()) {
@@ -103,8 +105,8 @@ public class Duke {
         }
         Scanner fileContent = new Scanner(loadingFile);
         while (fileContent.hasNext()) {
-            //add task (each line) to ArrayList taskList
-            //1. process each line first, construct new Todo/Event/Deadline object
+            //For each new line, add task to List myTasks
+            //Process each line first, and construct new Todo/Event/Deadline object
             String taskString = fileContent.nextLine();
             String[] splitTaskString = taskString.trim().split(" \\| ");
             Task loadTaskToList;
@@ -121,13 +123,21 @@ public class Duke {
             default:
                 throw new DukeException("There seems to be an error loading a task, sorry...");
             }
-            //if task was previously marked done already, make sure to mark it as done when loading to taskList
+            //if task was previously marked done already, make sure to mark it as done when loading to myTasks
             if (splitTaskString[1].equals("1")) {
                 loadTaskToList.markAsDone();
             }
             myTasks.add(loadTaskToList);
         }
         System.out.println("Hi user! your previous tasks have been loaded into Duke...");
+    }
+
+    private static void autoSaveIntoFile(List<Task> myTasks){
+        try {
+            saveMyTasksToFile(FILEPATH, myTasks);
+        } catch (IOException e) {
+            System.out.println("Encountered an error trying to save your task into duke.txt");
+        }
     }
 
     private Task deleteTask(Scanner userInput) throws DukeException {
@@ -144,17 +154,14 @@ public class Duke {
             this.myTasks.remove(index-1);
             return taskRef;
         }
-
         throw new DukeException("No such task was found");
-
     }
 
-    //Query from user.Boolean represents whetherDuke should continue the chat.
+    //Query from user.Boolean represents whether Duke should continue the chat.
     public Boolean shouldGiveResponse(String query) {
         boolean shouldContinueChat = true;
         Scanner in = new Scanner(query);
         Task newItem = null;
-
 
         //parse user query
         try {
@@ -165,51 +172,32 @@ public class Duke {
             switch (userCommand){
             case "deadline":
                 newItem = Deadline.checkDeadlineError(query);
-                try {
-                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                autoSaveIntoFile(myTasks);
                 break;
             case "todo":
                 newItem = ToDo.checkToDoError(query);
-                try {
-                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                autoSaveIntoFile(myTasks);
                 break;
             case "event":
                 newItem = Event.checkEventError(query);
-                try {
-                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                autoSaveIntoFile(myTasks);
                 break;
             case "list":
-                dukeResponse("Here are the tasks in your list: ", myTasks);
+                dukePrintTaskList("Here are the tasks in your list: ", myTasks);
                 break;
             case "done":
                 Task completedTask = taskIsDone(in);
                 dukeRespondTask("Nice! I've marked this task as done:", completedTask);
-                try {
-                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                autoSaveIntoFile(myTasks);
                 break;
             case "delete":
                 Task deletedTask = deleteTask(in);
                 dukeRespondTask("Noted! I've removed this task for you:", deletedTask);
+                autoSaveIntoFile(myTasks);
                 break;
             case "bye":
-                dukeResponse("Bye, hope to see you soon!");
-                try {
-                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                dukePrintTaskList("Bye, hope to see you soon!");
+                autoSaveIntoFile(myTasks);
                 shouldContinueChat = false;
                 break;
             default:
@@ -217,38 +205,34 @@ public class Duke {
             }
 
         } catch (DukeException ex) {
-            dukeResponse("☹ OOPS!!! " + ex.getMessage());
+            dukePrintTaskList("☹ OOPS!!! " + ex.getMessage());
         }
         if (newItem != null){
             this.myTasks.add(newItem);
             dukeRespondTask("Hey kid, i've added: ", newItem);
             String plural = ((this.myTasks.size() > 1) ? "s" : "");
-            dukeResponse("Now you have " + myTasks.size() + " task" + plural + " in the list.");
+            dukePrintTaskList("Now you have " + myTasks.size() + " task" + plural + " in the list.");
         }
-
         return shouldContinueChat;
     }
+
     //To run Duke's program
     public void dukeIntro() {
         boolean repeat = true;
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         try {
-            loadFileToMyTasks("src/main/java/Duke/duke.txt", myTasks);
+            loadFileToMyTasks(FILEPATH, myTasks);
         } catch (FileNotFoundException | DukeException e) {
             System.out.println("Can't seem to load from file...Creating a new file duke.txt");
-            //e.printStackTrace();
         }
         System.out.print(LOGO);
-        dukeResponse("Hello! I'm Duke\n What can I do for you?");
+        dukePrintTaskList("Hello! I'm Duke\n What can I do for you?");
         while(repeat){
             String userQuery = scanner.nextLine();
             repeat = shouldGiveResponse(userQuery);
-
         }
         scanner.close();
-
     }
-
 
     public static void main(String[] args) {
         Duke myObj = new Duke();

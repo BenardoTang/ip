@@ -12,9 +12,11 @@ public class Event extends Task {
         super(description);
         this.at = at;
     }
+
     public String getAt() {
         return this.at;
     }
+
     public static Event checkEventError(String in) throws DukeException {
         Scanner query = new Scanner(in);
         if(!query.hasNext()){
@@ -32,6 +34,7 @@ public class Event extends Task {
 
         return new Event(eventSplit[0], eventSplit[1]);
     }
+
     @Override
     public String toString() {
         return "[E]" + super.toString() + " (at: " + at + ")";
