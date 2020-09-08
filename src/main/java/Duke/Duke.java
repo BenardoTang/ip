@@ -1,5 +1,9 @@
 package Duke;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +18,7 @@ public class Duke {
             + "|____/ \\__,_|_|\\_\\___|\n";
 
     //class variables
-    private List<Task> myTasks;
+    private final List<Task> myTasks;
 
     //Constructor for class Duke.Duke
     public Duke() {
@@ -65,6 +69,67 @@ public class Duke {
         throw new DukeException("No such task was found");
 
     }
+    private static void saveMyTasksToFile(String filePath, List<Task> myTasks) throws IOException {
+        FileWriter fw;
+        try{
+            fw = new FileWriter(filePath); //overwrite existing file contents when called
+        } catch (IOException e) {
+            throw new IOException();
+        }
+        //convert newTaskData to string format for storing in duke.txt
+        String newTaskString;
+        //boolean hasDescription = false;
+
+        for (int i=0; i < myTasks.size(); i++) {
+            Task newTaskData = myTasks.get(i);
+            if (newTaskData instanceof ToDo) {
+                //Format of todo is different with 3 fields, while Deadline/Event has 4
+                newTaskString = newTaskData.getTaskData()[0] + " | " + newTaskData.getTaskData()[1] + " | "
+                        + newTaskData.getTaskData()[2] + System.lineSeparator();
+            } else {
+                newTaskString = newTaskData.getTaskData()[0] + " | " + newTaskData.getTaskData()[1] + " | "
+                        + newTaskData.getTaskData()[2] + " | " + newTaskData.getTaskData()[3] + System.lineSeparator();
+            }
+            fw.write(newTaskString);
+
+        }
+        fw.close();
+    }
+    private static void loadFileToMyTasks(String filePath, List<Task> myTasks) throws FileNotFoundException, DukeException {
+        File loadingFile = new File(filePath);
+        if (!loadingFile.exists()) {
+            throw new FileNotFoundException();
+        }
+        Scanner fileContent = new Scanner(loadingFile);
+        while (fileContent.hasNext()) {
+            //add task (each line) to ArrayList taskList
+            //1. process each line first, construct new Todo/Event/Deadline object
+            String taskString = fileContent.nextLine();
+            String[] splitTaskString = taskString.trim().split(" \\| ");
+            Task loadTaskToList;
+            switch(splitTaskString[0].toUpperCase()) {
+            case ("T"):
+                loadTaskToList = new ToDo(splitTaskString[2]);
+                break;
+            case ("E"):
+                loadTaskToList = new Event(splitTaskString[2], splitTaskString[3]);
+                break;
+            case ("D"):
+                loadTaskToList = new Deadline(splitTaskString[2], splitTaskString[3]);
+                break;
+            default:
+                throw new DukeException("There seems to be an error loading a task, sorry...");
+            }
+            //if task was previously marked done already, make sure to mark it as done when loading to taskList
+            if (splitTaskString[1].equals("1")) {
+                loadTaskToList.markAsDone();
+            }
+            myTasks.add(loadTaskToList);
+        }
+        System.out.println("Hi user! your previous tasks have been loaded into Duke...");
+    }
+
+
 
     //Query from user.Boolean represents whetherDuke should continue the chat.
     public Boolean shouldGiveResponse(String query) {
@@ -82,12 +147,27 @@ public class Duke {
             switch (userCommand){
             case "deadline":
                 newItem = Deadline.checkDeadlineError(query);
+                try {
+                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "todo":
                 newItem = ToDo.checkToDoError(query);
+                try {
+                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "event":
                 newItem = Event.checkEventError(query);
+                try {
+                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "list":
                 dukeResponse("Here are the tasks in your list: ", myTasks);
@@ -95,9 +175,19 @@ public class Duke {
             case "done":
                 Task completedTask = taskIsDone(in);
                 dukeRespondTask("Nice! I've marked this task as done:", completedTask);
+                try {
+                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case "bye":
                 dukeResponse("Bye, hope to see you soon!");
+                try {
+                    saveMyTasksToFile("src/main/java/Duke/duke.txt", myTasks);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 shouldContinueChat = false;
                 break;
             default:
@@ -120,6 +210,12 @@ public class Duke {
     public void dukeIntro() {
         boolean repeat = true;
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
+        try {
+            loadFileToMyTasks("src/main/java/Duke/duke.txt", myTasks);
+        } catch (FileNotFoundException | DukeException e) {
+            System.out.println("Can't seem to load from file...Creating a new file duke.txt");
+            //e.printStackTrace();
+        }
         System.out.print(LOGO);
         dukeResponse("Hello! I'm Duke\n What can I do for you?");
         while(repeat){
