@@ -16,7 +16,7 @@ public class Duke {
             + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
-    private static final String FILEPATH = "src/main/java/Duke/duke.txt";
+    private static final String FILEPATH = "Duke/duke.txt";
 
     //class variables
     private final List<Task> myTasks;
@@ -196,7 +196,7 @@ public class Duke {
                 autoSaveIntoFile(myTasks);
                 break;
             case "bye":
-                dukePrintTaskList("Bye, hope to see you soon!");
+                dukePrintTaskList("Bye, hope to see you soon! ");
                 autoSaveIntoFile(myTasks);
                 shouldContinueChat = false;
                 break;
@@ -205,7 +205,7 @@ public class Duke {
             }
 
         } catch (DukeException ex) {
-            dukePrintTaskList("☹ OOPS!!! " + ex.getMessage());
+            dukePrintTaskList("(O_o) OOPS! " + ex.getMessage());
         }
         if (newItem != null){
             this.myTasks.add(newItem);
@@ -216,17 +216,28 @@ public class Duke {
         return shouldContinueChat;
     }
 
-    //To run Duke's program
+    //To run Duke's program on start
     public void dukeIntro() {
         boolean repeat = true;
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
+        // Load duke.txt on startup. creates new file with duke.txt in relative path if duke.txt does not exist
         try {
             loadFileToMyTasks(FILEPATH, myTasks);
         } catch (FileNotFoundException | DukeException e) {
-            System.out.println("Can't seem to load from file...Creating a new file duke.txt");
+            System.out.println("Can't seem to load from file.Creating a new file duke.txt in new folder Duke...");
+            File newDirectory = new File("Duke");
+            boolean isNewDirectoryCreated = newDirectory.mkdir();
+            if (isNewDirectoryCreated) {
+                File newFile = new File(FILEPATH);
+                try {
+                    newFile.createNewFile();
+                } catch (IOException ex) {
+                    System.out.println("Failed to create file in new directory");
+                }
+            }
         }
         System.out.print(LOGO);
-        dukePrintTaskList("Hello! I'm Duke\nWhat can I do for you?");
+        dukePrintTaskList("Hello! I'm Duke d(^u^)\nWhat can I do for you?");
         while(repeat){
             String userQuery = scanner.nextLine();
             repeat = shouldGiveResponse(userQuery);
