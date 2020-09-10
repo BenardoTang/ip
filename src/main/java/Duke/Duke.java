@@ -124,7 +124,7 @@ public class Duke {
                 throw new DukeException("There seems to be an error loading a task, sorry...");
             }
             //if task was previously marked done already, make sure to mark it as done when loading to myTasks
-            if (splitTaskString[1].equals("1")) {
+            if (splitTaskString[1].equals(":)")) {
                 loadTaskToList.markAsDone();
             }
             myTasks.add(loadTaskToList);
