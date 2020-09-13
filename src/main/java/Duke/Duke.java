@@ -1,8 +1,10 @@
 package Duke;
 
+import common.Messages;
+import data.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +12,18 @@ import java.util.Scanner;
 
 public class Duke {
     //Constants
-    private static final String MESSAGE_BOUNDARY = "____________________________________________________________";
+    private Ui ui;
+    private Storage storage;
+    private TaskList tasks;
+    private Messages messageContainer = new Messages();
+
+    /*private static final String MESSAGE_BOUNDARY = "____________________________________________________________";
     private static final String LOGO = " ____        _        \n"
             + "|  _ \\ _   _| | _____ \n"
             + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
-    private static final String FILEPATH = "Duke/duke.txt";
+    private static final String FILEPATH = "Duke/duke.txt";*/
 
     //class variables
     private final List<Task> myTasks;
@@ -71,7 +78,7 @@ public class Duke {
         throw new DukeException("No such task was found");
     }
 
-    private static void saveMyTasksToFile(String filePath, List<Task> myTasks) throws IOException {
+ /*   private static void saveMyTasksToFile(String filePath, List<Task> myTasks) throws IOException {
         FileWriter fw;
         try{
             fw = new FileWriter(filePath); //overwrite existing file contents when called
@@ -139,7 +146,7 @@ public class Duke {
             System.out.println("Encountered an error trying to save your task into duke.txt");
         }
     }
-
+*/
     private Task deleteTask(Scanner userInput) throws DukeException {
         if(!userInput.hasNextInt()) {
             throw new DukeException("Task reference number needs to be an integer...");
@@ -172,15 +179,15 @@ public class Duke {
             switch (userCommand){
             case "deadline":
                 newItem = Deadline.checkDeadlineError(query);
-                autoSaveIntoFile(myTasks);
+                storage.autoSaveIntoFile(myTasks);
                 break;
             case "todo":
                 newItem = ToDo.checkToDoError(query);
-                autoSaveIntoFile(myTasks);
+                storage.autoSaveIntoFile(myTasks);
                 break;
             case "event":
                 newItem = Event.checkEventError(query);
-                autoSaveIntoFile(myTasks);
+                storage.autoSaveIntoFile(myTasks);
                 break;
             case "list":
                 dukePrintTaskList("Here are the tasks in your list: ", myTasks);
@@ -188,16 +195,16 @@ public class Duke {
             case "done":
                 Task completedTask = taskIsDone(in);
                 dukeRespondTask("Nice! I've marked this task as done:", completedTask);
-                autoSaveIntoFile(myTasks);
+                storage.autoSaveIntoFile(myTasks);
                 break;
             case "delete":
                 Task deletedTask = deleteTask(in);
                 dukeRespondTask("Noted! I've removed this task for you:", deletedTask);
-                autoSaveIntoFile(myTasks);
+                storage.autoSaveIntoFile(myTasks);
                 break;
             case "bye":
                 dukePrintTaskList("Bye, hope to see you soon! ");
-                autoSaveIntoFile(myTasks);
+                storage.autoSaveIntoFile(myTasks);
                 shouldContinueChat = false;
                 break;
             default:
@@ -222,7 +229,7 @@ public class Duke {
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         // Load duke.txt on startup. creates new file with duke.txt in relative path if duke.txt does not exist
         try {
-            loadFileToMyTasks(FILEPATH, myTasks);
+            storage.loadFileToMyTasks(FILEPATH, myTasks);
         } catch (FileNotFoundException | DukeException e) {
             System.out.println("Can't seem to load from file.Creating a new file duke.txt in new folder Duke...");
             File newDirectory = new File("Duke");

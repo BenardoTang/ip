@@ -1,4 +1,4 @@
-package Duke;
+package data;
 
 public abstract class Task {
 
@@ -22,6 +22,10 @@ public abstract class Task {
 
         public void markAsDone() {
             this.isDone = true;
+        }
+
+        public boolean getIsDone(){
+            return this.isDone;
         }
 
         public String toString() {
