@@ -1,24 +1,15 @@
 package data;
 
-import java.util.Scanner;
-
 public class ToDo extends Task {
 
     protected String by;
     public static final int NUMBER_OF_FIELDS_TODO_FORMAT = 3;
     public static final String TODO_CHARACTER = "T";
-
-    public ToDo(String description) {
+    public ToDo(String description, String by) {
         super(description);
+        this.by = by;
     }
-    public static ToDo checkToDoError(String in) throws DukeException{
-        Scanner query = new Scanner(in);
-        if(in.trim().matches("todo")){
-            throw new DukeException("Description of a task cannot be empty.");
-        }
-        in = in.replace("todo","");
-        return new ToDo(in);
-    }
+
 
     @Override
     public String toString() {
