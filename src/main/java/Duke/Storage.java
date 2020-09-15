@@ -1,6 +1,10 @@
 package Duke;
 
-import data.*;
+import data.Deadline;
+import data.DukeException;
+import data.Event;
+import data.Task;
+import data.ToDo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +15,7 @@ import java.util.Scanner;
 
 public class Storage {
 
-    private String filePath;
+    private final String filePath;
 
     public Storage(String filePathInput) {
         this.filePath = filePathInput;

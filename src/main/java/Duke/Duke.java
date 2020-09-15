@@ -9,11 +9,11 @@ import java.io.IOException;
 import static common.Messages.ERROR_SAVING_INTO_TEXT_FILE;
 
 public class Duke {
-    //Constants
-    private Ui ui;
-    private Storage storage;
+
+    private final Ui ui;
+    private final Storage storage;
     private TaskList tasks;
-    private Messages messageContainer = new Messages();
+    private final Messages messageContainer = new Messages();
 
 
     public Duke(String filePath) {
@@ -39,7 +39,7 @@ public class Duke {
     }
 
     public void runLoopUntilExit() {
-        Parser commandParser = new Parser(tasks);
+        Parser commandParser = new Parser();
         while (!commandParser.userWantsToLeave()) {
             try {
                 String userInputText = ui.getUserCommand();
@@ -58,7 +58,6 @@ public class Duke {
         } catch (IOException e) {
             ui.displayErrorMessage(ERROR_SAVING_INTO_TEXT_FILE);
         }
-
         ui.sayBye();
         System.exit(0);
     }

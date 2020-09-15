@@ -1,7 +1,5 @@
 package data;
 
-import java.util.Scanner;
-
 public class Event extends Task {
 
     private static final int NUMBER_OF_FIELDS_EVENT_FORMAT = 4;// format: E | 0 | project meeting | Aug 6th 2-4pm
@@ -17,7 +15,7 @@ public class Event extends Task {
         return this.at;
     }
 
-    public static Event checkEventError(String in) throws DukeException {
+    /*public static Event checkEventError(String in) throws DukeException {
         Scanner query = new Scanner(in);
         if(in.contains("event /at")){
             throw new DukeException("Description of an Event cannot be empty.");
@@ -33,7 +31,7 @@ public class Event extends Task {
         String[] eventSplit = in.split("/at");
 
         return new Event(eventSplit[0], eventSplit[1]);
-    }
+    }*/
 
     @Override
     public String toString() {

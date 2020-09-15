@@ -1,20 +1,23 @@
 package Duke;
 
-import common.Messages;
 import data.DukeException;
 
-import static common.Messages.*;
+import static common.Messages.BYE_COMMAND;
+import static common.Messages.DEADLINE_COMMAND;
+import static common.Messages.DELETE_COMMAND;
+import static common.Messages.DONE_COMMAND;
+import static common.Messages.EVENT_COMMAND;
+import static common.Messages.INVALID_COMMAND_MESSAGE;
+import static common.Messages.LIST_COMMAND;
+import static common.Messages.NO_DESCRIPTION;
+import static common.Messages.TODO_COMMAND;
+import static common.Messages.TOO_LITTLE_PARAMETERS;
+import static common.Messages.TOO_MANY_PARAMETERS;
 
 public class Parser {
 
     public static final int MAX_SUBSTRING_FIELDS = 2;
     public boolean shouldEndChat = false;
-    private TaskList taskList;
-    private Messages messageContainer = new Messages();
-
-    public Parser(TaskList taskListInput) {
-        this.taskList = taskListInput;
-    }
 
     //command to validate task
     public Command parseCommand(String userInput) throws DukeException {
@@ -23,6 +26,7 @@ public class Parser {
 
         String[] tokenizedInput = userInput.split(" ");
         String commandKeyword = tokenizedInput[0];
+        String[] resolveInputIntoDescriptions;
         switch (commandKeyword.toLowerCase()) {
         case (BYE_COMMAND):
         case (LIST_COMMAND):
@@ -40,25 +44,26 @@ public class Parser {
             }
             break;
         case (TODO_COMMAND):
+            resolveInputIntoDescriptions = splitToDoInput(userInput);
+            newCommand = new Command(commandKeyword, tokenizedInput, resolveInputIntoDescriptions);
+            break;
         case (EVENT_COMMAND):
         case (DEADLINE_COMMAND):
-            String[] separatedDescriptionRemarksInput = splitUserInput(userInput);
-            newCommand = new Command(commandKeyword, tokenizedInput, separatedDescriptionRemarksInput);
+            resolveInputIntoDescriptions = splitDeadlineOrEventInput(userInput);
+            newCommand = new Command(commandKeyword, tokenizedInput, resolveInputIntoDescriptions);
             break;
         default:
             throw new DukeException(INVALID_COMMAND_MESSAGE);
         }
         return newCommand;
     }
-    public String[] splitUserInput(String originalInput) throws DukeException{
+
+    private String[] splitDeadlineOrEventInput(String userInput) throws DukeException{
         String[] returnValue = new String[MAX_SUBSTRING_FIELDS];
-        if (originalInput.contains(" /")){
-            String[] separatedSections = originalInput.split(" /");
+        String[] separatedSections;
+        if (userInput.contains(" /")){
+            separatedSections = userInput.split(" /");
             String commandWord = separatedSections[0].split(" ", 2)[0];
-            //todo should not have a remark section
-            if (commandWord.toLowerCase().equals(TODO_COMMAND)) {
-                throw new DukeException(TOO_MANY_PARAMETERS);
-            }
 
             try {
                 String testForMissingRemarks = separatedSections[1];
@@ -83,25 +88,31 @@ public class Parser {
             if (isRemarksEmpty){
                 throw new DukeException(NO_DESCRIPTION);
             }
-            return returnValue;
-        } else {
-            // get description part of userInput without the command word
-            String[] separatedSections = originalInput.split(" ");
-            String commandWord = separatedSections[0].split(" ", 2)[0];
-            //only the keyword input
-            if (Integer.valueOf(separatedSections.length) == Integer.valueOf(1)) {
-                throw new DukeException(TOO_LITTLE_PARAMETERS);
-            }
-            //similar to above, event and deadline should not be missing a description section
-            if (commandWord.toLowerCase().equals(EVENT_COMMAND) || commandWord.toLowerCase().equals(DEADLINE_COMMAND)) {
-                throw new DukeException(NO_DESCRIPTION);
-            }
-            returnValue[0] = originalInput.trim().split(" ", 2)[1];
-
-            // remark column is an empty string
-            returnValue[1] = "";
-            return returnValue;
         }
+        return returnValue;
+    }
+
+    public String[] splitToDoInput(String originalInput) throws DukeException{
+        String[] returnValue = new String[MAX_SUBSTRING_FIELDS];
+        String[] separatedSections;
+        // get description part of userInput without the command word
+        separatedSections = originalInput.split(" ");
+        String commandWord = separatedSections[0].split(" ", 2)[0];
+
+        //only the keyword input
+        if (Integer.valueOf(separatedSections.length).equals(1)) {
+            throw new DukeException(TOO_LITTLE_PARAMETERS);
+        }
+        //similar to above, event and deadline should not be missing a description section
+        if (commandWord.toLowerCase().equals(EVENT_COMMAND) || commandWord.toLowerCase().equals(DEADLINE_COMMAND)) {
+            throw new DukeException(NO_DESCRIPTION);
+        }
+        returnValue[0] = originalInput.trim().split(" ", 2)[1];
+
+        // remark column is an empty string
+        returnValue[1] = "";
+
+        return returnValue;
     }
     public boolean userWantsToLeave(){
         return this.shouldEndChat;

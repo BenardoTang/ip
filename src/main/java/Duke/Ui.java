@@ -1,14 +1,16 @@
 package Duke;
 
 import common.Messages;
-import data.Task;
 
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.List;
 import java.util.Scanner;
 
-import static common.Messages.*;
+import static common.Messages.DUKE_SAYS_HI;
+import static common.Messages.ERROR_EMOJI;
+import static common.Messages.LOGO;
+import static common.Messages.NO_INPUT;
+import static common.Messages.SAY_SAYONARA;
 
 public class Ui {
     private final Scanner in;
@@ -30,23 +32,14 @@ public class Ui {
         System.out.println(messageContainer.printResponseWithBorder(SAY_SAYONARA));
     }
     //Print out full task list
-    private void dukePrintTaskList(String sampleText , List<Task> listOfTasks) {
-        System.out.println(MESSAGE_BOUNDARY);
-        System.out.println(sampleText);
-        int index = 0;
-        for(Task t:listOfTasks){
-            index +=1;
-            System.out.println(String.format("%d",index) +". "+ t);
-        }
-        System.out.println(MESSAGE_BOUNDARY);
-    }
+
     public void displayErrorMessage(String errorMessage) {
         System.out.println(ERROR_EMOJI + errorMessage);
     }
     public String getUserCommand() {
         String userInput = in.nextLine();
 
-        //silently consume all empty/whitespace lines
+        //Take out all empty/whitespace lines
         while (isInputEmpty(userInput)) {
             displayErrorMessage(NO_INPUT);
             userInput = in.nextLine();
@@ -54,13 +47,7 @@ public class Ui {
 
         return userInput;
     }
-    //Respond when user has done a task
-    private void dukeRespondTask(String sampleText , Task userTask) {
-        System.out.println(MESSAGE_BOUNDARY);
-        System.out.println(sampleText);
-        System.out.println(userTask);
-        System.out.println(MESSAGE_BOUNDARY);
-    }
+
     private boolean isInputEmpty(String rawInput) {
         return rawInput.trim().isEmpty();
     }

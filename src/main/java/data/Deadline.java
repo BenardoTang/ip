@@ -1,7 +1,5 @@
 package data;
 
-import java.util.Scanner;
-
 public class Deadline extends Task {
 
     private static final int NUMBER_OF_FIELDS_DEADLINE_FORMAT = 4; // format: D | 0 | return book | June 6th
@@ -17,7 +15,7 @@ public class Deadline extends Task {
         return this.by;
     }
 
-    public static Deadline checkDeadlineError(String in) throws DukeException {
+   /* public static Deadline checkDeadlineError(String in) throws DukeException {
         Scanner query = new Scanner(in);
         if(in.contains("deadline /by")){
             throw new DukeException("Description of a deadline cannot be empty.");
@@ -33,7 +31,7 @@ public class Deadline extends Task {
         String[] deadlineSplit = in.split("/by");
 
         return new Deadline(deadlineSplit[0], deadlineSplit[1]);
-    }
+    }*/
 
     @Override
     public String toString() {

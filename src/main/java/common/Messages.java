@@ -26,6 +26,8 @@ public class Messages {
 
     public static final String TOO_LITTLE_PARAMETERS = "Too little parameters input for the command.";
 
+    public static final String INVALID_PARAMETERS = "Invalid parameters input for the command.Try again :c";
+
     public static final String NO_DESCRIPTION = "The task must have a description.";
 
     public static final String TASK_NOT_FOUND = "No such task was found.";
@@ -52,7 +54,7 @@ public class Messages {
 
     public static final String DELETE_COMMAND = "delete";
 
-    public static final String SHOW_ALL_USER_TASKS = "Here are the tasks in your list: ";
+    public static final String ALL_USER_TASKS = "Here are the tasks in your list: ";
 
     public static final String MARKED_TASK_AS_DONE = "Nice, I've marked this task as done: ";
 
@@ -62,26 +64,26 @@ public class Messages {
 
     public static final String SAY_SAYONARA = "Bye, hope to see you soon! ";
 
-    public static final String INVALID_COMMAND_MESSAGE = "I don't know what you just said, care to try again?";
+    public static final String INVALID_COMMAND_MESSAGE = "Happy to see you too, but i don't know what you're saying...";
 
     public String printResponseWithBorder(String sampleText) {
         return MESSAGE_BOUNDARY + "\n" + sampleText + "\n" + MESSAGE_BOUNDARY;
     }
     public static String getTaskDoneMessage(int queryNumber, TaskList listInput) {
-        return MARKED_TASK_AS_DONE  + "\t" + Integer.toString(queryNumber)
+        return MARKED_TASK_AS_DONE   + Integer.toString(queryNumber)
                 + ".[" + listInput.getTaskStatusIcon(queryNumber - INDEX_OFFSET) + "] "
                 + listInput.getTaskDescription(queryNumber - INDEX_OFFSET);
     }
 
     public static String getTaskAddedMessage(Task newTask, TaskList listInput) {
         String plural = ((listInput.getTaskCount()  > 1) ? "s" : "");
-        return "Got it. I've added this task:" + newTask.toString() + "\n"
-                + "Now you have " + listInput.getTaskCount() + " task" + plural + "in the list.\n";
+        return "Got it. I've added this task: " + newTask.toString() + ".\n"
+                + "Now you have " + listInput.getTaskCount() + " task" + plural + " in the list.\n";
 
     }
     public static String getTaskRemovedMessage(Task removedTask, TaskList listInput) {
         String plural = ((listInput.getTaskCount()  > 1) ? "s" : "");
-        return "\tGot it. I've removed this task: \n\t" + removedTask.toString()
-                + "\tNow you have " + listInput.getTaskCount() + " task" + plural +"in the list.\n";
+        return "Got it. I've removed this task: \n" + removedTask.toString()
+                + ". Now you have " + listInput.getTaskCount() + " task" + plural +" in the list.\n";
     }
 }
