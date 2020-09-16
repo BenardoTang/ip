@@ -52,7 +52,6 @@ public class Duke {
     }
 
     public void byeDuke() {
-        //TODO: save tasklist to storage
         try {
             storage.saveMyTasksToFile(tasks);
         } catch (IOException e) {

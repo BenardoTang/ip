@@ -12,8 +12,6 @@ public class Messages {
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
 
-    //private static final String FILEPATH = "Duke/duke.txt";
-
     public static final String ERROR_EMOJI = "(O_o) OOPS!";
 
     public static final int INDEX_OFFSET = 1;

@@ -11,6 +11,7 @@ public class ToDo extends Task {
         super(description);
         this.by = by;
     }
+
     @Override
     public void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword){
         if(this.getDescription().contains(magicKeyword)){

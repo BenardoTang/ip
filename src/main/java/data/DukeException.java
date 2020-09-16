@@ -5,5 +5,4 @@ public class DukeException extends Exception {
         super(message);
     }
 }
-/* use when user uses wrong terms, example: blah, and not the keywords,
- */
+
