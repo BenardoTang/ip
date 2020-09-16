@@ -1,5 +1,6 @@
 package data;
 
+
 /**
  * This class is the superclass of all tasks that can be stored in Duke.
  */
@@ -47,5 +48,7 @@ public abstract class Task {
      * @see Deadline
      */
     public abstract String[] getTaskData();
+    
+    public abstract void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword);
 
 }

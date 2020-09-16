@@ -1,5 +1,7 @@
 package data;
 
+import java.util.ArrayList;
+
 /**
  * This class represents the DEADLINE division of Tasks that can be stored in Duke.
  * It contains a description and a deadline.
@@ -17,6 +19,13 @@ public class Deadline extends Task {
 
     public String getBy() {
         return this.by;
+    }
+
+    @Override
+    public void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword){
+        if(this.getDescription().contains(magicKeyword)||this.getBy().contains(magicKeyword)){
+            searchResults.add(this);
+        }
     }
 
     @Override

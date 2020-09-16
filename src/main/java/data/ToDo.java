@@ -1,4 +1,5 @@
 package data;
+import java.util.ArrayList;
 
 /**
  * This class represents the TODO division of Tasks that can be stored in Duke.
@@ -12,6 +13,13 @@ public class ToDo extends Task {
     public ToDo(String description, String by) {
         super(description);
         this.by = by;
+    }
+
+    @Override
+    public void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword){
+        if(this.getDescription().contains(magicKeyword)){
+            searchResults.add(this);
+        }
     }
 
     @Override

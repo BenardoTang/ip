@@ -1,5 +1,7 @@
 package data;
 
+import java.util.ArrayList;
+
 /**
  * This class represents the EVENT division of Tasks that can be stored in Duke.
  * It contains a description and a venue.
@@ -17,6 +19,13 @@ public class Event extends Task {
 
     public String getAt() {
         return this.at;
+    }
+
+    @Override
+    public void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword){
+        if(this.getDescription().contains(magicKeyword)||this.getAt().contains(magicKeyword)){
+            searchResults.add(this);
+        }
     }
 
     @Override
