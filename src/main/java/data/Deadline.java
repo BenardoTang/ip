@@ -1,5 +1,7 @@
 package data;
 
+import java.util.ArrayList;
+
 public class Deadline extends Task {
 
     private static final int NUMBER_OF_FIELDS_DEADLINE_FORMAT = 4; // format: D | 0 | return book | June 6th
@@ -13,6 +15,13 @@ public class Deadline extends Task {
 
     public String getBy() {
         return this.by;
+    }
+
+    @Override
+    public void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword){
+        if(this.getDescription().contains(magicKeyword)||this.getBy().contains(magicKeyword)){
+            searchResults.add(this);
+        }
     }
 
     @Override

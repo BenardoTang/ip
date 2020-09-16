@@ -48,11 +48,15 @@ public class Messages {
 
     public static final String DELETE_COMMAND = "delete";
 
+    public static final String NO_MATCHES_MESSAGE = "No tasks matching the keyword were found";
+
+    public static final String MATCHES_MESSAGE = "Here are the matching tasks in your list: ";
+
+    public static final String FIND_COMMAND = "find";
+
     public static final String ALL_USER_TASKS = "Here are the tasks in your list: ";
 
     public static final String MARKED_TASK_AS_DONE = "Nice, I've marked this task as done: ";
-
-    public static final String REMOVE_TASK_FOR_USER = "Noted! I've deleted this task for you: ";
 
     public static final String EMPTY_LIST_ERROR = "The task list is empty.";
 

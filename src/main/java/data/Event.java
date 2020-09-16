@@ -1,5 +1,7 @@
 package data;
 
+import java.util.ArrayList;
+
 public class Event extends Task {
 
     private static final int NUMBER_OF_FIELDS_EVENT_FORMAT = 4;// format: E | 0 | project meeting | Aug 6th 2-4pm
@@ -13,6 +15,13 @@ public class Event extends Task {
 
     public String getAt() {
         return this.at;
+    }
+
+    @Override
+    public void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword){
+        if(this.getDescription().contains(magicKeyword)||this.getAt().contains(magicKeyword)){
+            searchResults.add(this);
+        }
     }
 
     @Override

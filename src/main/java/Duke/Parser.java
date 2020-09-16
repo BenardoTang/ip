@@ -7,6 +7,7 @@ import static common.Messages.DEADLINE_COMMAND;
 import static common.Messages.DELETE_COMMAND;
 import static common.Messages.DONE_COMMAND;
 import static common.Messages.EVENT_COMMAND;
+import static common.Messages.FIND_COMMAND;
 import static common.Messages.INVALID_COMMAND_MESSAGE;
 import static common.Messages.LIST_COMMAND;
 import static common.Messages.NO_DESCRIPTION;
@@ -36,6 +37,7 @@ public class Parser {
             newCommand = new Command(commandKeyword);
             break;
         case(DONE_COMMAND):
+        case(FIND_COMMAND):
         case(DELETE_COMMAND):
             try {
                 newCommand = new Command(commandKeyword, tokenizedInput[1]);
@@ -114,6 +116,7 @@ public class Parser {
 
         return returnValue;
     }
+
     public boolean userWantsToLeave(){
         return this.shouldEndChat;
     }

@@ -3,7 +3,6 @@ package Duke;
 import common.Messages;
 
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.Scanner;
 
 import static common.Messages.DUKE_SAYS_HI;
@@ -14,15 +13,13 @@ import static common.Messages.SAY_SAYONARA;
 
 public class Ui {
     private final Scanner in;
-    private final PrintStream out;
     private final Messages messageContainer = new Messages();
 
     public Ui() {
-        this(System.in, System.out);
+        this(System.in);
     }
-    public Ui(InputStream in, PrintStream out) {
+    public Ui(InputStream in) {
         this.in = new Scanner(in);
-        this.out = out;
     }
     public void sayIntro(){
         System.out.print(LOGO);
