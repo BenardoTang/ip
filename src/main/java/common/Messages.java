@@ -3,6 +3,13 @@ package common;
 import Duke.TaskList;
 import data.Task;
 
+/**
+ * This class acts as a container for most of the error messages and strings
+ * that are used by the rest of the classes.
+ * <p></p>
+ * <p>It also holds some generalized methods that can be used to print messages,
+ * mainly for the classes that add and remove tasks..</p>
+ */
 public class Messages {
     public static final String MESSAGE_BOUNDARY = "____________________________________________________________";
 
@@ -11,8 +18,6 @@ public class Messages {
             + "| | | | | | | |/ / _ \\\n"
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
-
-    //private static final String FILEPATH = "Duke/duke.txt";
 
     public static final String ERROR_EMOJI = "(O_o) OOPS!";
 

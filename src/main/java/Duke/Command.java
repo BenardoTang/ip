@@ -24,28 +24,58 @@ import static common.Messages.getTaskAddedMessage;
 import static common.Messages.getTaskDoneMessage;
 import static common.Messages.getTaskRemovedMessage;
 
+/**
+ * This class deals with commands. The call for command execution is done through here. It also executes the relevant
+ * operations on the {@link TaskList} containing the Tasks.
+ * @see TaskList
+ */
 public class Command {
-    //private final Messages messageContainer = new Messages();
     private final String keyword;
     private String[] tokenizedInput;
     private String[] taskDescriptionRemarksFieldsInput;
     private String queryTaskNumberText;
 
+    /**
+     * Constructor for LIST and BYE command.
+     * @param keyword indicates the operation to be executed
+     */
     public Command(String keyword) {
         this.keyword = keyword;
     }
 
+    /**
+     * Constructor for DONE and DELETE command.
+     * @param keyword indicates the operation to be executed
+     * @param queryTaskNumberTextInput this input is a number index (for DONE and DELETE).
+     */
     public Command(String keyword, String queryTaskNumberTextInput) {
         this.keyword = keyword;
         this.queryTaskNumberText = queryTaskNumberTextInput;
     }
 
+    /**
+     * Constructor for TODO, EVENT or DEADLINE command.
+     * @param keyword indicates the operation to be executed
+     * @param tokenizedInput a string array of the original user input string
+     * @param processedUserInput a string array of the description and remarks fields of the task.
+     */
     public Command(String keyword, String[] tokenizedInput, String[] processedUserInput) {
         this.keyword = keyword;
         this.tokenizedInput = tokenizedInput;
         this.taskDescriptionRemarksFieldsInput = processedUserInput;
     }
 
+    /**
+     * This method parses the keyword attribute of the {@link Command} object, and carries out the operation corresponding to the keyword on a {@link TaskList} list.
+     * <p></p>
+     * If any exception is encountered during the operation, they will be thrown and caught by the exception handler
+     * in the main class ({@link Duke})
+     * <p></p></p>
+     * @param taskListInput the list of tasks
+     * @param uiInput for displaying Ui elements
+     * @see TaskList
+     * @see Ui
+     */
     public void runCommand(TaskList taskListInput, Ui uiInput) throws DukeException {
         switch (keyword.toLowerCase()) {
         case (BYE_COMMAND):
@@ -64,6 +94,17 @@ public class Command {
             break;
         }
     }
+
+    /**
+     * This method constructs a new {@link Task} from the attributes of the {@link Command} object,
+     * and inserts it into a given {@link TaskList} list.
+     * <p></p>
+     * @param listInput         the list of Tasks
+     * @param uiInput           for displaying Ui elements
+     * @param tokenizedInput    a string array of the original user input string
+     * @see TaskList
+     * @see Ui
+     */
     private void insertNewTask(TaskList listInput, Ui uiInput, String[] tokenizedInput) {
         Task newTask = null;
         switch (tokenizedInput[0]) {
@@ -85,6 +126,22 @@ public class Command {
         String taskAddedMessage = getTaskAddedMessage(newTask, listInput);
         System.out.println(taskAddedMessage + MESSAGE_BOUNDARY);
     }
+
+    /**
+     * This method prints out the {@link Task} objects that are currently in the given {@link TaskList} list.
+     * <p></p>
+     * <p>
+     * The list includes the type ({@link ToDo}, {@link Event}, {@link Deadline}) of each Task and the status
+     * of each task. If there are no tasks in the TaskList, an empty list message is printed instead.
+     * </p>
+     * @param listInput the list of Tasks
+     * @param uiInput   for displaying Ui elements
+     * @see TaskList
+     * @see Ui
+     * @see ToDo
+     * @see Event
+     * @see Deadline
+     */
     public void printTaskList(TaskList listInput, Ui uiInput) {
         String taskListPrintOutput = "";
 
@@ -103,6 +160,19 @@ public class Command {
         return;
     }
 
+    /**
+     * This method marks a {@link Task} object (denoted by task number) in the {@link TaskList} list as "done".
+     * <p></p>
+     * If the task number given is not a valid number or falls outside the range of existing tasks,
+     * an error message will be shown stating that the number chosen is out of range
+     * <p></p>
+     *
+     * @param listInput         the list of tasks
+     * @param taskNumberInput   the task number of the task to be marked done
+     * @param uiInput           for displaying Ui elements
+     * @see TaskList
+     * @see Ui
+     */
     public void taskIsDone(TaskList listInput, Ui uiInput, String taskNumberInput) throws DukeException {
         int queryNumber;
         try {
@@ -124,11 +194,20 @@ public class Command {
         System.out.println(taskDoneMessage +"\n"+ MESSAGE_BOUNDARY);
     }
 
-
-
+    /**
+     * This method constructs a new {@link Task} from the attributes of the {@link Command} object,
+     * and inserts it into a given {@link TaskList} list.
+     * <p></p>
+     * If the task number given is not a valid number or falls outside the range of existing tasks,
+     * an error message will be shown stating that the number chosen is out of range
+     * <p></p>
+     * @param listInput         the list of Tasks
+     * @param taskNumberInput   the task number of the task to be deleted
+     * @see TaskList
+     * @see Ui
+     */
     private void deleteTask(TaskList listInput, String taskNumberInput) throws DukeException {
         int taskNumberForRemoval;
-        //TODO: exceptions - second input out of bounds, not integer, no second input, only whitespaces after first input
         try {
             taskNumberForRemoval = Integer.parseInt(taskNumberInput);
         } catch (NumberFormatException e) {

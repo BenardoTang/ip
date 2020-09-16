@@ -1,5 +1,9 @@
 package data;
 
+/**
+ * This class represents the TODO division of Tasks that can be stored in Duke.
+ * It contains a description
+ */
 public class ToDo extends Task {
 
     protected String by;
@@ -10,12 +14,15 @@ public class ToDo extends Task {
         this.by = by;
     }
 
-
     @Override
     public String toString() {
         return "[T]" + super.toString();
     }
 
+    /**
+     * This method converts the data from a TODO object into a String array.
+     * @return a String array consisting of the Task, its completion status and the description
+     */
     @Override
     public String[] getTaskData(){
         String[] taskValues = new String[NUMBER_OF_FIELDS_TODO_FORMAT];
