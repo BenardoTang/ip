@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This class is used to load and save the data of Tasks in the {@link TaskList} object to a local .txt file.
+ */
 public class Storage {
 
     private final String filePath;
@@ -21,6 +24,11 @@ public class Storage {
         this.filePath = filePathInput;
     }
 
+    /**
+     * This method saves the data stored in the Tasks of the {@link TaskList} into the local save file.
+     * @param taskList      the arraylist of tasks
+     * @throws IOException  this exception occurs if the data is unable to be written to the local save file.
+     */
     public void saveMyTasksToFile(TaskList taskList) throws IOException {
         FileWriter fw;
         try{
@@ -30,7 +38,6 @@ public class Storage {
         }
         //convert newTaskData to string format for storing in duke.txt
         String newTaskString;
-        //boolean hasDescription = false;
 
         for (int i=0; i < taskList.getTaskCount(); i++) {
             Task newTaskData = taskList.getTaskList().get(i);
@@ -48,6 +55,15 @@ public class Storage {
         fw.close();
     }
 
+    /**
+     * This method loads the saved data from the local save file before returning a {@link TaskList}.
+     * <p></p>
+     * <p>If there is no saved data present, an empty task list is created.
+     * Else, it will load the saved tasks to a TaskList </p>
+     * @return an ArrayList<Task> containing the tasks
+     * @throws FileNotFoundException this exception occurs if no local save file is found.
+     * Handled by the Duke class which creates a new empty TaskList<Task>
+     */
     public ArrayList<Task> loadFileToMyTasks() throws FileNotFoundException, DukeException {
         File loadingFile = new File(this.filePath);
         if (!loadingFile.exists()) {
@@ -97,5 +113,4 @@ public class Storage {
         System.out.println("Hi user! your previous tasks have been loaded into Duke...");
         return taskListToReturn;
     }
-
 }

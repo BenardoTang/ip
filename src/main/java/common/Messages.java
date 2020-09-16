@@ -3,6 +3,13 @@ package common;
 import Duke.TaskList;
 import data.Task;
 
+/**
+ * This class acts as a container for most of the error messages and strings
+ * that are used by the rest of the classes.
+ * <p></p>
+ * <p>It also holds some generalized methods that can be used to print messages,
+ * mainly for the classes that add and remove tasks..</p>
+ */
 public class Messages {
     public static final String MESSAGE_BOUNDARY = "____________________________________________________________";
 
@@ -24,7 +31,7 @@ public class Messages {
 
     public static final String TOO_LITTLE_PARAMETERS = "Too little parameters input for the command.";
 
-    public static final String INVALID_PARAMETERS = "Invalid parameters input for the command.Try again :c";
+    public static final String TASKLIST_SAVE_DIRECTORY = "Duke/duke.txt";
 
     public static final String NO_DESCRIPTION = "The task must have a description.";
 

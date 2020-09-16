@@ -2,6 +2,10 @@ package data;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the DEADLINE division of Tasks that can be stored in Duke.
+ * It contains a description and a deadline.
+ */
 public class Deadline extends Task {
 
     private static final int NUMBER_OF_FIELDS_DEADLINE_FORMAT = 4; // format: D | 0 | return book | June 6th
@@ -29,6 +33,10 @@ public class Deadline extends Task {
         return "[D]" + super.toString() + " (by: " + by + ")";
     }
 
+    /**
+     * This method converts the data from a DEADLINE object into a String array.
+     * @return a String array consisting of the Task, its completion status and the description
+     */
     @Override
     public String[] getTaskData(){
         String[] taskValues = new String[NUMBER_OF_FIELDS_DEADLINE_FORMAT];

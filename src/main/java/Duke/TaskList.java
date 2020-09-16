@@ -4,6 +4,11 @@ import data.Task;
 
 import java.util.ArrayList;
 
+/**
+ * This class is a list of {@link Task} objects.
+ * <p></p>
+ * @see ArrayList
+ */
 public class TaskList {
     private ArrayList<Task> tasks = new ArrayList<>();
 
