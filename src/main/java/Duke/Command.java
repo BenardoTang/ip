@@ -25,7 +25,6 @@ import static common.Messages.getTaskDoneMessage;
 import static common.Messages.getTaskRemovedMessage;
 
 public class Command {
-    //private final Messages messageContainer = new Messages();
     private final String keyword;
     private String[] tokenizedInput;
     private String[] taskDescriptionRemarksFieldsInput;
@@ -128,7 +127,6 @@ public class Command {
 
     private void deleteTask(TaskList listInput, String taskNumberInput) throws DukeException {
         int taskNumberForRemoval;
-        //TODO: exceptions - second input out of bounds, not integer, no second input, only whitespaces after first input
         try {
             taskNumberForRemoval = Integer.parseInt(taskNumberInput);
         } catch (NumberFormatException e) {

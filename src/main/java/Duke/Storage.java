@@ -98,11 +98,4 @@ public class Storage {
         return taskListToReturn;
     }
 
-    /*public static void autoSaveIntoFile(List<Task> myTasks){
-        try {
-            saveMyTasksToFile(FILEPATH, myTasks);
-        } catch (IOException e) {
-            System.out.println("Encountered an error trying to save your task into duke.txt");
-        }
-    }*/
 }

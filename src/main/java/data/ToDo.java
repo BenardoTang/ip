@@ -10,7 +10,6 @@ public class ToDo extends Task {
         this.by = by;
     }
 
-
     @Override
     public String toString() {
         return "[T]" + super.toString();

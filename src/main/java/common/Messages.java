@@ -12,8 +12,6 @@ public class Messages {
             + "| |_| | |_| |   <  __/\n"
             + "|____/ \\__,_|_|\\_\\___|\n";
 
-    //private static final String FILEPATH = "Duke/duke.txt";
-
     public static final String ERROR_EMOJI = "(O_o) OOPS!";
 
     public static final int INDEX_OFFSET = 1;
@@ -33,10 +31,6 @@ public class Messages {
     public static final String TASK_NOT_FOUND = "No such task was found.";
 
     public static final String NO_INPUT = "No valid input detected, try again...";
-
-    public static final String TASK_LOADED_INTO_DUKE = "Hi user! your previous tasks have been loaded into Duke...";
-
-    public static final String FAILED_TO_LOAD_TEXT_FILE = "Can't load from file.Creating a new file duke.txt in new folder Duke.";
 
     public static final String ERROR_SAVING_INTO_TEXT_FILE = "Encountered an error trying to save your task into duke.txt";
 
