@@ -26,7 +26,7 @@ public class Messages {
 
     public static final String TOO_LITTLE_PARAMETERS = "Too little parameters input for the command.";
 
-    public static final String INVALID_PARAMETERS = "Invalid parameters input for the command.Try again :c";
+    public static final String TASKLIST_SAVE_DIRECTORY = "Duke/duke.txt";
 
     public static final String NO_DESCRIPTION = "The task must have a description.";
 
