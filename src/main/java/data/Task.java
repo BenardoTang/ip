@@ -1,5 +1,7 @@
 package data;
 
+import java.util.ArrayList;
+
 public abstract class Task {
 
         protected String description;
@@ -24,14 +26,12 @@ public abstract class Task {
             this.isDone = true;
         }
 
-        public boolean getIsDone(){
-            return this.isDone;
-        }
-
         public String toString() {
             return String.format("[%s]%s", getStatusIcon(), this.description);
         }
 
         public abstract String[] getTaskData();
+
+        public abstract void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword);
 
 }

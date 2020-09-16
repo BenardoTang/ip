@@ -1,5 +1,7 @@
 package data;
 
+import java.util.ArrayList;
+
 public class Event extends Task {
 
     private static final int NUMBER_OF_FIELDS_EVENT_FORMAT = 4;// format: E | 0 | project meeting | Aug 6th 2-4pm
@@ -15,23 +17,12 @@ public class Event extends Task {
         return this.at;
     }
 
-    /*public static Event checkEventError(String in) throws DukeException {
-        Scanner query = new Scanner(in);
-        if(in.contains("event /at")){
-            throw new DukeException("Description of an Event cannot be empty.");
+    @Override
+    public void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword){
+        if(this.getDescription().contains(magicKeyword)||this.getAt().contains(magicKeyword)){
+            searchResults.add(this);
         }
-        if(!in.contains("/at")){
-            throw new DukeException("Did not detect '/at' from user, please try again.");
-        }
-        int index = in.indexOf("/at");
-        if(in.length() <= (index+3)){
-            throw new DukeException("Venue of an Event cannot be empty.");
-        }
-        in = in.replace("event","");
-        String[] eventSplit = in.split("/at");
-
-        return new Event(eventSplit[0], eventSplit[1]);
-    }*/
+    }
 
     @Override
     public String toString() {

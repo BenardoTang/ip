@@ -6,6 +6,8 @@ import data.Event;
 import data.Task;
 import data.ToDo;
 
+import java.util.ArrayList;
+
 import static common.Messages.ALL_USER_TASKS;
 import static common.Messages.BYE_COMMAND;
 import static common.Messages.DEADLINE_COMMAND;
@@ -13,11 +15,14 @@ import static common.Messages.DELETE_COMMAND;
 import static common.Messages.DONE_COMMAND;
 import static common.Messages.EMPTY_LIST_ERROR;
 import static common.Messages.EVENT_COMMAND;
+import static common.Messages.FIND_COMMAND;
 import static common.Messages.INDEX_OFFSET;
 import static common.Messages.INVALID_COMMAND_MESSAGE;
 import static common.Messages.INVALID_TASK_NUMBER;
 import static common.Messages.LIST_COMMAND;
+import static common.Messages.MATCHES_MESSAGE;
 import static common.Messages.MESSAGE_BOUNDARY;
+import static common.Messages.NO_MATCHES_MESSAGE;
 import static common.Messages.TASK_NOT_FOUND;
 import static common.Messages.TODO_COMMAND;
 import static common.Messages.getTaskAddedMessage;
@@ -25,19 +30,18 @@ import static common.Messages.getTaskDoneMessage;
 import static common.Messages.getTaskRemovedMessage;
 
 public class Command {
-    //private final Messages messageContainer = new Messages();
     private final String keyword;
     private String[] tokenizedInput;
     private String[] taskDescriptionRemarksFieldsInput;
-    private String queryTaskNumberText;
+    private String query;
 
     public Command(String keyword) {
         this.keyword = keyword;
     }
 
-    public Command(String keyword, String queryTaskNumberTextInput) {
+    public Command(String keyword, String queryInput) {
         this.keyword = keyword;
-        this.queryTaskNumberText = queryTaskNumberTextInput;
+        this.query = queryInput;
     }
 
     public Command(String keyword, String[] tokenizedInput, String[] processedUserInput) {
@@ -54,10 +58,13 @@ public class Command {
             printTaskList(taskListInput, uiInput);
             break;
         case (DONE_COMMAND):
-            taskIsDone(taskListInput, uiInput, queryTaskNumberText);
+            taskIsDone(taskListInput, uiInput, query);
             break;
         case (DELETE_COMMAND):
-            deleteTask(taskListInput, queryTaskNumberText);
+            deleteTask(taskListInput, query);
+            break;
+        case (FIND_COMMAND):
+            findTasksByKeyword(taskListInput, uiInput, query);
             break;
         default:
             insertNewTask(taskListInput, uiInput, tokenizedInput);
@@ -78,7 +85,6 @@ public class Command {
             break;
         default:
             uiInput.displayErrorMessage(INVALID_COMMAND_MESSAGE);
-            //break;
         }
 
         listInput.addTask(newTask);
@@ -100,7 +106,6 @@ public class Command {
         }
 
         System.out.println(MESSAGE_BOUNDARY+"\n"+ALL_USER_TASKS+"\n"+taskListPrintOutput+MESSAGE_BOUNDARY);
-        return;
     }
 
     public void taskIsDone(TaskList listInput, Ui uiInput, String taskNumberInput) throws DukeException {
@@ -138,10 +143,25 @@ public class Command {
         if (isOutOfBounds) {
             throw new DukeException(TASK_NOT_FOUND);
         }
-        Task removedTask = listInput.deleteTask(Integer.valueOf(taskNumberForRemoval)
+        Task removedTask = listInput.deleteTask(taskNumberForRemoval
                 - INDEX_OFFSET);
 
         String taskRemovedMessage = getTaskRemovedMessage(removedTask, listInput);
         System.out.println(taskRemovedMessage+MESSAGE_BOUNDARY);
+    }
+    private void findTasksByKeyword(TaskList listInput, Ui uiInput, String searchQuery) {
+        int resultNumber = 1;
+        ArrayList<Task> searchResults = listInput.searchTaskList(listInput.getTaskList(), searchQuery);
+
+        if (Integer.valueOf(searchResults.size()).equals(0)) {
+            uiInput.displayErrorMessage(NO_MATCHES_MESSAGE);
+        } else {
+            String searchOutput = MATCHES_MESSAGE + "\n";
+            for (Task result : searchResults) {
+                searchOutput += resultNumber + "." + result.toString() + "\n";
+                resultNumber++;
+            }
+            System.out.println(MESSAGE_BOUNDARY +"\n"+ searchOutput + MESSAGE_BOUNDARY);
+        }
     }
 }

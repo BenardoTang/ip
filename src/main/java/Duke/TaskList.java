@@ -22,10 +22,6 @@ public class TaskList {
         return this.tasks;
     }
 
-    public boolean getTaskDoneStatus(int taskNumber) {
-        return this.tasks.get(taskNumber).getIsDone();
-    }
-
     public void markTaskAsDone(int taskNumber) {
         this.tasks.get(taskNumber).markAsDone();
     }
@@ -44,5 +40,13 @@ public class TaskList {
 
     public Task deleteTask(int taskNumber) {
         return this.tasks.remove(taskNumber);
+    }
+
+    public ArrayList<Task> searchTaskList(ArrayList<Task> taskListToSearch, String searchKeyword) {
+        ArrayList<Task> matchingResults = new ArrayList<>();
+        for (Task task : taskListToSearch) {
+            task.tasksWithMagicWord(matchingResults, searchKeyword);
+        }
+        return matchingResults;
     }
 }
