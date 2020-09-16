@@ -1,5 +1,5 @@
 package data;
-
+import java.util.ArrayList;
 
 /**
  * This class is the superclass of all tasks that can be stored in Duke.
