@@ -48,7 +48,19 @@ public abstract class Task {
      * @see Deadline
      */
     public abstract String[] getTaskData();
-    
+
+    /**
+     * This abstract method is overridden in the subclasses of Task.
+     * The task object is added into a searchResults
+     * ArrayList if the Task's description or field contains the 'magic' keyword.
+     * <p></p>
+     * <p>View the subclasses to see how the method is overridden.</p>
+     * @param searchResults a list of Tasks containing the search keyword
+     * @param magicKeyword the keyword to be searched for in the Task
+     * @see Deadline
+     * @see Event
+     * @see ToDo
+     */
     public abstract void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword);
 
 }

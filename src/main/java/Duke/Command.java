@@ -50,9 +50,10 @@ public class Command {
 
 
     /**
-     * Constructor for DONE and DELETE command.
+     * Constructor for DONE, DELETE and FIND command.
      * @param keyword indicates the operation to be executed
-     * @param queryTaskNumberTextInput this input is a number index (for DONE and DELETE).
+     * @param queryInput this input is a number index for DONE and DELETE command
+     * and search keyword for FIND command.
      */
 
     public Command(String keyword, String queryInput) {
@@ -231,6 +232,14 @@ public class Command {
         String taskRemovedMessage = getTaskRemovedMessage(removedTask, listInput);
         System.out.println(taskRemovedMessage+MESSAGE_BOUNDARY);
     }
+
+    /**
+     * This method searches the Tasks in the {@link TaskList} object input for a keyword. It filters out
+     * Tasks containing the search keyword and prints them.
+     * @param listInput the TaskList to be searched
+     * @param uiInput for displaying Ui elements
+     * @param searchQuery the keyword to be searched for in Tasks
+     */
     private void findTasksByKeyword(TaskList listInput, Ui uiInput, String searchQuery) {
         int resultNumber = 1;
         ArrayList<Task> searchResults = listInput.searchTaskList(listInput.getTaskList(), searchQuery);

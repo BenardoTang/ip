@@ -15,6 +15,14 @@ public class ToDo extends Task {
         this.by = by;
     }
 
+    /**
+     * This method adds the current ToDo task to an ArrayList if the Task's description or
+     * field contains the keyword.
+     * <p></p>
+     * <p>This method is used for the FIND command.</p>
+     * @param searchResults a list of Tasks containing the magic keyword
+     * @param magicKeyword the 'magic' keyword to be searched for in each ToDo object
+     */
     @Override
     public void tasksWithMagicWord(ArrayList<Task> searchResults, String magicKeyword){
         if(this.getDescription().contains(magicKeyword)){
