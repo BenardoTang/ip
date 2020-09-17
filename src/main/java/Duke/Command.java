@@ -14,6 +14,7 @@ import static common.Messages.DEADLINE_COMMAND;
 import static common.Messages.DELETE_COMMAND;
 import static common.Messages.DONE_COMMAND;
 import static common.Messages.EMPTY_LIST_ERROR;
+import static common.Messages.ERROR_SAVING_INTO_TEXT_FILE;
 import static common.Messages.EVENT_COMMAND;
 import static common.Messages.FIND_COMMAND;
 import static common.Messages.INDEX_OFFSET;
@@ -39,6 +40,7 @@ public class Command {
     private String[] tokenizedInput;
     private String[] taskDescriptionRemarksFieldsInput;
     private String query;
+    private Storage storage;
 
     /**
      * Constructor for LIST and BYE command.
@@ -81,10 +83,12 @@ public class Command {
      * <p></p></p>
      * @param taskListInput the list of tasks
      * @param uiInput for displaying Ui elements
+     * @param saveToList for saving updated task list to local save file
      * @see TaskList
      * @see Ui
      */
-    public void runCommand(TaskList taskListInput, Ui uiInput) throws DukeException {
+    public void runCommand(TaskList taskListInput, Ui uiInput, Storage saveToList) throws DukeException {
+        this.storage = saveToList;
         switch (keyword.toLowerCase()) {
         case (BYE_COMMAND):
             break;
@@ -92,16 +96,16 @@ public class Command {
             printTaskList(taskListInput, uiInput);
             break;
         case (DONE_COMMAND):
-            taskIsDone(taskListInput, uiInput, query);
+            taskIsDone(taskListInput, uiInput, query, storage);
             break;
         case (DELETE_COMMAND):
-            deleteTask(taskListInput, query);
+            deleteTask(taskListInput,uiInput, query, storage);
             break;
         case (FIND_COMMAND):
             findTasksByKeyword(taskListInput, uiInput, query);
             break;
         default:
-            insertNewTask(taskListInput, uiInput, tokenizedInput);
+            insertNewTask(taskListInput, uiInput, tokenizedInput , storage);
             break;
         }
     }
@@ -113,10 +117,11 @@ public class Command {
      * @param listInput         the list of Tasks
      * @param uiInput           for displaying Ui elements
      * @param tokenizedInput    a string array of the original user input string
+     * @param saveToList for saving updated task list to local save file
      * @see TaskList
      * @see Ui
      */
-    private void insertNewTask(TaskList listInput, Ui uiInput, String[] tokenizedInput) {
+    private void insertNewTask(TaskList listInput, Ui uiInput, String[] tokenizedInput , Storage saveToList) {
         Task newTask = null;
         switch (tokenizedInput[0]) {
         case (TODO_COMMAND):
@@ -135,6 +140,11 @@ public class Command {
         listInput.addTask(newTask);
         String taskAddedMessage = getTaskAddedMessage(newTask, listInput);
         System.out.println(taskAddedMessage + MESSAGE_BOUNDARY);
+        try {
+            saveToList.saveMyTasksToFile(listInput);
+        } catch (java.io.IOException e) {
+            uiInput.displayErrorMessage(ERROR_SAVING_INTO_TEXT_FILE);
+        }
     }
 
     /**
@@ -179,10 +189,11 @@ public class Command {
      * @param listInput         the list of tasks
      * @param taskNumberInput   the task number of the task to be marked done
      * @param uiInput           for displaying Ui elements
+     * @param saveToList for saving updated task list to local save file
      * @see TaskList
      * @see Ui
      */
-    public void taskIsDone(TaskList listInput, Ui uiInput, String taskNumberInput) throws DukeException {
+    public void taskIsDone(TaskList listInput, Ui uiInput, String taskNumberInput, Storage saveToList) throws DukeException {
         int queryNumber;
         try {
             queryNumber = Integer.parseInt(taskNumberInput);
@@ -201,6 +212,11 @@ public class Command {
 
         String taskDoneMessage = getTaskDoneMessage(queryNumber, listInput);
         System.out.println(taskDoneMessage +"\n"+ MESSAGE_BOUNDARY);
+        try {
+            saveToList.saveMyTasksToFile(listInput);
+        } catch (java.io.IOException e) {
+            uiInput.displayErrorMessage(ERROR_SAVING_INTO_TEXT_FILE);
+        }
     }
 
     /**
@@ -212,10 +228,11 @@ public class Command {
      * <p></p>
      * @param listInput         the list of Tasks
      * @param taskNumberInput   the task number of the task to be deleted
+     * @param saveToList for saving updated task list to local save file
      * @see TaskList
      * @see Ui
      */
-    private void deleteTask(TaskList listInput, String taskNumberInput) throws DukeException {
+    private void deleteTask(TaskList listInput,Ui uiInput, String taskNumberInput , Storage saveToList) throws DukeException {
         int taskNumberForRemoval;
         try {
             taskNumberForRemoval = Integer.parseInt(taskNumberInput);
@@ -231,6 +248,11 @@ public class Command {
 
         String taskRemovedMessage = getTaskRemovedMessage(removedTask, listInput);
         System.out.println(taskRemovedMessage+MESSAGE_BOUNDARY);
+        try {
+            saveToList.saveMyTasksToFile(listInput);
+        } catch (java.io.IOException e) {
+            uiInput.displayErrorMessage(ERROR_SAVING_INTO_TEXT_FILE);
+        }
     }
 
     /**

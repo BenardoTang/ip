@@ -73,7 +73,7 @@ public class Duke {
             try {
                 String userInputText = ui.getUserCommand();
                 Command nextCommand = commandParser.parseCommand(userInputText);
-                nextCommand.runCommand(tasks, ui);
+                nextCommand.runCommand(tasks, ui, storage);
             } catch (DukeException e) {
                 ui.displayErrorMessage(e.getMessage());
             }
