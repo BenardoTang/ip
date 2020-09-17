@@ -8,6 +8,7 @@ import java.util.Scanner;
 import static common.Messages.DUKE_SAYS_HI;
 import static common.Messages.ERROR_EMOJI;
 import static common.Messages.LOGO;
+import static common.Messages.BYE_LOGO;
 import static common.Messages.NO_INPUT;
 import static common.Messages.SAY_SAYONARA;
 
@@ -38,7 +39,7 @@ public class Ui {
      * This method says goodbye to the user on program termination.
      */
     public void sayBye(){
-        System.out.println(messageContainer.printResponseWithBorder(SAY_SAYONARA));
+        System.out.println(BYE_LOGO +messageContainer.printResponseWithBorder(SAY_SAYONARA));
     }
     //Print out full task list
 
