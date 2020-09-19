@@ -1,4 +1,4 @@
-# User Guide :c
+# Duke User Guide
 
 
 ##1. Introduction
@@ -11,7 +11,7 @@ for people who prefer using a Command-Line Interface.
 
 Ensure that you have Java 11 installed in your Computer.
 
-1.Download the latest Duke_IP.jar from here.
+1.Download the latest Duke_IP.jar from [here](https://github.com/BenardoTang/ip/releases).
 
 2.Copy the file to the folder you want to use as the home folder for your Duke program.
 
@@ -307,6 +307,7 @@ Bye, hope to see you soon!
 ______________________________________________________
 ``` 
 &nbsp;
+
  ##5. Command Summary 
   
  * *Todo* : `todo <Description>` \
