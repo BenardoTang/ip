@@ -1,13 +1,29 @@
 # Duke User Guide
 
+* [1. Introduction](#1-introduction)
+* [2. Quick Start](#2-quick-start)
+* [3. Command Format](#3-command-format)
+* [4. Features](#4-features)
+    + [4.1. Add tasks](#41-add-a-task)
+        + [4.1.1 Todos](#411-todo---adds-a-todo-task)
+        + [4.1.2 Events](#412-event---adds-an-event-task)
+        + [4.1.3 Deadlines](#413-deadline---adds-a-deadline-task)
+    + [4.2. Mark task as done](#42-done---mark-task-as-done)
+    + [4.3. Display all tasks](#43-list---displays-all-tasks-in-list)
+    + [4.4. Find task by keyword](#44-find---find-tasks-that-match-keyword)
+    + [4.5. Delete tasks](#45-delete---deletes-task-from-list)
+    + [4.6. Exiting Duke](#46-bye---exits-the-program)
+- [5. Command Summary](#5-command-summary)   
 
-##1. Introduction
+
+
+## 1. Introduction
 Duke is a CLI-based application that 
 keeps track of your tasks. This application is
 for people who prefer using a Command-Line Interface.
 
 
-##2. Quick Start
+## 2. Quick Start
 
 Ensure that you have Java 11 installed in your Computer.
 
@@ -17,7 +33,7 @@ Ensure that you have Java 11 installed in your Computer.
 
 3.Open a command window in that folder.
 
-4.Run the command java -jar Duke_IP.jar.
+4.Run the command `java -jar Duke_IP.jar`.
 
 5.You should see something like this below:
    ```
@@ -42,7 +58,7 @@ A valid input would be `event Meeting /at Mon 4pm`.
 
 
 
-##4. Features
+## 4. Features
 
 ### 4.1 Add a task
 Duke allows you to add 3 different types of tasks: todo, deadline and event. Refer to the subheadings below for more information on each type.
@@ -288,7 +304,7 @@ ______________________________________________________
  
 &nbsp;
  
-### 4.7 `bye` - Exits the program
+### 4.6 `bye` - Exits the program
 Saves task list to a local storage file and exits program.
  
  
@@ -308,7 +324,7 @@ ______________________________________________________
 ``` 
 &nbsp;
 
- ##5. Command Summary 
+## 5. Command Summary 
   
  * *Todo* : `todo <Description>` \
  e.g. `todo read book`
