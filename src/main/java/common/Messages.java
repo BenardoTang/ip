@@ -55,7 +55,7 @@ public class Messages {
 
     public static final String DELETE_COMMAND = "delete";
 
-    public static final String NO_MATCHES_MESSAGE = "No tasks matching the keyword were found";
+    public static final String NO_MATCHES_MESSAGE = "No tasks matching the keyword were found...";
 
     public static final String MATCHES_MESSAGE = "Here are the matching tasks in your list: ";
 
@@ -67,7 +67,7 @@ public class Messages {
 
     public static final String EMPTY_LIST_ERROR = "The task list is empty.";
 
-    public static final String SAY_SAYONARA = "Bye, hope to see you soon! ";
+    public static final String SAY_SAYONARA = "Bye, hope to see you soon!";
 
     public static final String INVALID_COMMAND_MESSAGE = "Happy to see you too, but i don't know what you're saying...";
 

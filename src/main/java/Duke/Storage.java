@@ -78,7 +78,7 @@ public class Storage {
                 }
             }
             else {
-                System.out.println("Failed to create directory");
+                System.out.println("Failed to create directory,try moving the Jar file to a new folder.");
             }
             throw new FileNotFoundException();
         }
@@ -110,7 +110,7 @@ public class Storage {
             }
             taskListToReturn.add(loadTaskToList);
         }
-        System.out.println("Hi user! your previous tasks have been loaded into Duke...");
+        System.out.println("(^o^) Hi user! your previous tasks have been loaded into Duke (^o^)");
         return taskListToReturn;
     }
 }
