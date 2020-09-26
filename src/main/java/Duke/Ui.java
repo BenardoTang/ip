@@ -40,7 +40,6 @@ public class Ui {
     public void sayBye(){
         System.out.println(messageContainer.printResponseWithBorder(SAY_SAYONARA));
     }
-    //Print out full task list
 
     /**
      * This methods prints out the message input.

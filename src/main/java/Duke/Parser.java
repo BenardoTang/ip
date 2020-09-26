@@ -83,6 +83,9 @@ public class Parser {
     private String[] splitDeadlineOrEventInput(String userInput) throws DukeException{
         String[] returnValue = new String[MAX_SUBSTRING_FIELDS];
         String[] separatedSections;
+        if(!(userInput.contains(" /by")||userInput.contains(" /at"))){
+            throw new DukeException(TOO_LITTLE_PARAMETERS);
+        }
         if (userInput.contains(" /")){
             separatedSections = userInput.split(" /");
             String commandWord = separatedSections[0].split(" ", 2)[0];
